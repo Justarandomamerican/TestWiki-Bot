@@ -18,16 +18,22 @@ logging.basicConfig(
     ]
 )
 logger = logging.getLogger('ActivityBot')
-print(f"Current working directory: {os.getcwd()}")
-# Load environment variables and check if it succeeded
-loaded = load_dotenv()
-print(f"Environment loaded: {loaded}")
 
-# Get all environment variables (temporarily, for debugging)
-print("Available environment variables:", [k for k in os.environ.keys() if k in ['BOT_USERNAME', 'BOT_PASSWORD']])
+# Debug: Print the current working directory
+logger.info(f"Current working directory: {os.getcwd()}")
+
+# Load environment variables
+loaded = load_dotenv()
+logger.info(f"Environment loaded: {loaded}")
+
+# Debug: Check for relevant environment variables
+if 'BOT_USERNAME' in os.environ and 'BOT_PASSWORD' in os.environ:
+    logger.info("Environment variables loaded successfully.")
+else:
+    logger.warning("BOT_USERNAME or BOT_PASSWORD not found in environment variables.")
 
 class ActivityBot:
-
+    
     # Configuration
     API_URL = "https://testwiki.wiki/api.php"
     BOT_USERNAME = os.environ.get("BOT_USERNAME")
@@ -95,6 +101,12 @@ class ActivityBot:
     )
     
     def __init__(self):
+        if not self.BOT_USERNAME or not self.BOT_PASSWORD:
+            logger.error("Bot credentials (username/password) are missing. Please check your environment variables.")
+            raise ValueError("Bot credentials are missing.")
+        else:
+            logger.info("Bot credentials loaded successfully.")
+
         # Initialize the bot with session and tokens.
         self.session = requests.Session()
         self.tokens = {}
