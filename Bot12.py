@@ -5,6 +5,7 @@ import time
 import logging
 import datetime
 import pytz
+from dotenv import load_dotenv
 from typing import Dict, List, Tuple, Set, Optional, Any, Union
 
 # Configure logging
@@ -17,6 +18,7 @@ logging.basicConfig(
     ]
 )
 logger = logging.getLogger('ActivityBot')
+load_dotenv()
 
 class ActivityBot:
 
