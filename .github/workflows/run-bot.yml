@@ -1,45 +1,45 @@
 name: Run Inactivity Bot
 
 on:
-  schedule:
-    - cron: "0 0 * * *"  # Runs daily at 12 AM UTC
-  workflow_dispatch:     # Allows manual trigger from GitHub UI
+  push:
+    branches:
+      - main
 
 jobs:
-  run:
-    environment: Run the bot
+  run_bot:
     runs-on: ubuntu-latest
-    
     steps:
-      # Check out your repo
-      - uses: actions/checkout@v3
+      # Checkout the repository
+      - name: Checkout code
+        uses: actions/checkout@v2
 
-      # Set up Python 
+      # Set up Python
       - name: Set up Python
-        uses: actions/setup-python@v4
+        uses: actions/setup-python@v2
         with:
           python-version: '3.x'
 
       # Install dependencies
       - name: Install dependencies
         run: |
-          pip install -r requirements.txt || echo "no requirements.txt"
+          pip install -r requirements.txt
 
-      # Run the script
-      - name: Run the bot
-        env:
-            BOT_USERNAME: ${{ vars.BOT_USERNAME }}
-            BOT_PASSWORD: ${{ secrets.BOT_PASSWORD }}
+      # Run the bot script
+      - name: Run InactivityBot
         run: |
-          python InactivityBot.py  
+          python InactivityBot.py
 
-      # Commit and push updated JSON files
-      - name: Commit and push JSON files
+      # Configure Git user
+      - name: Configure Git user
         run: |
-          git config --global user.name "younginspiration"
-          git config --global user.email "theastorpastor@gmail.com"
-          git add data/*.json   
-          git commit -m "Update JSON files after bot run"
-          git push
+          git config --global user.name "GitHub Actions"
+          git config --global user.email "actions@github.com"
+
+      # Commit and push changes, including .log files
+      - name: Commit and push changes
+        run: |
+          git add .  # This includes all files, including .log files
+          git commit -m "Automatic update: Warned users list and logs"
+          git push https://x-access-token:${{ secrets.GH_TOKEN }}@github.com/${{ github.repository }} HEAD:main
         env:
-          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
+          GH_TOKEN: ${{ secrets.GH_TOKEN }}
