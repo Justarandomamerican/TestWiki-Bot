@@ -503,7 +503,7 @@ class ActivityBot:
             "letype": "rights",
             "letitle": f"User:{username}",
             "lelimit": 50,  # Get enough to find the most recent grant
-            "leprop": "timestamp|details",
+            "leprop": "timestamp|details|params",
             "format": "json"
         }
         
