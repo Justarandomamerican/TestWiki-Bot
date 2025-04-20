@@ -1,12 +1,12 @@
 name: Run Inactivity Bot
 
 on:
-  push:
-    branches:
-      - main
-
+  schedule:
+    - cron: "0 0 * * *"  # Runs daily at 12 AM UTC
+  workflow_dispatch:     # Allows manual trigger from GitHub UI
 jobs:
   run_bot:
+    environment: Run the bot
     runs-on: ubuntu-latest
     steps:
       # Checkout the repository
@@ -26,6 +26,9 @@ jobs:
 
       # Run the bot script
       - name: Run InactivityBot
+        env:
+            BOT_USERNAME: ${{ vars.BOT_USERNAME }}
+            BOT_PASSWORD: ${{ secrets.BOT_PASSWORD }}
         run: |
           python InactivityBot.py
 
