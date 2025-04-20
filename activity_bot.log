@@ -131,3 +131,62 @@ Traceback (most recent call last):
     if af_days >= self.ABUSEFILTER_ADMIN_WARNING_THRESHOLD and af_days < self.ABUSEFILTER_ADMIN_THRESHOLD:
        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 TypeError: '>=' not supported between instances of 'tuple' and 'int'
+2025-04-20 21:08:56,215 - ActivityBot - INFO - Current working directory: /home/runner/work/TestWiki-Bot/TestWiki-Bot
+2025-04-20 21:08:56,215 - ActivityBot - INFO - Environment loaded: False
+2025-04-20 21:08:56,215 - ActivityBot - INFO - Environment variables loaded successfully.
+2025-04-20 21:08:56,215 - ActivityBot - INFO - Bot credentials loaded successfully.
+2025-04-20 21:08:56,215 - ActivityBot - INFO - Starting ActivityBot run
+2025-04-20 21:08:56,397 - ActivityBot - INFO - Obtained login token: c2a16...8+\
+2025-04-20 21:08:56,476 - ActivityBot - INFO - Successfully logged in as Inactivity Bot
+2025-04-20 21:08:56,509 - ActivityBot - INFO - Refreshed CSRF token: e37f2...8+\
+2025-04-20 21:08:56,536 - ActivityBot - INFO - Refreshed userrights token: 84f2f...8+\
+2025-04-20 21:08:56,567 - ActivityBot - INFO - Found users in group 'sysop': 40
+2025-04-20 21:08:56,598 - ActivityBot - INFO - Found users in group 'bureaucrat': 28
+2025-04-20 21:08:56,628 - ActivityBot - INFO - Found users in group 'interface-admin': 4
+2025-04-20 21:08:56,657 - ActivityBot - INFO - Found users in group 'abusefilter-admin': 1
+2025-04-20 21:08:56,657 - ActivityBot - INFO - Checking activity for 3PPYB6 (groups: sysop)
+2025-04-20 21:08:56,731 - ActivityBot - INFO - Checking activity for Abuse filter (groups: sysop)
+2025-04-20 21:08:56,731 - ActivityBot - INFO - Checking activity for AlPaD (groups: sysop, bureaucrat)
+2025-04-20 21:08:56,821 - ActivityBot - INFO - Checking activity for Alachuckthebuck (groups: sysop, bureaucrat)
+2025-04-20 21:08:56,886 - ActivityBot - INFO - Checking activity for BZPN (groups: sysop, bureaucrat, interface-admin)
+2025-04-20 21:08:56,985 - ActivityBot - INFO - Could not find when BZPN was granted interface-admin.
+2025-04-20 21:08:57,057 - ActivityBot - INFO - Checking activity for BasiclyHugh (groups: sysop)
+2025-04-20 21:08:57,120 - ActivityBot - INFO - Checking activity for Bhairava7 (groups: sysop, bureaucrat)
+2025-04-20 21:08:57,183 - ActivityBot - INFO - Checking activity for Bosco (groups: sysop, bureaucrat)
+2025-04-20 21:08:57,267 - ActivityBot - INFO - Checking activity for Bosco-bot (groups: sysop)
+2025-04-20 21:08:57,329 - ActivityBot - INFO - Checking activity for Brewster239 (groups: sysop, bureaucrat)
+2025-04-20 21:08:57,390 - ActivityBot - INFO - Checking activity for Bunnypranav (groups: sysop, bureaucrat)
+2025-04-20 21:08:57,453 - ActivityBot - INFO - Checking activity for BusMuster (groups: sysop)
+2025-04-20 21:08:57,453 - ActivityBot - INFO - Checking activity for C1K98V (groups: sysop, bureaucrat)
+2025-04-20 21:08:57,517 - ActivityBot - INFO - Checking activity for Chaotic Enby (groups: sysop)
+2025-04-20 21:08:57,580 - ActivityBot - INFO - Checking activity for Codename Noreste (groups: sysop, bureaucrat, abusefilter-admin)
+2025-04-20 21:08:57,674 - ActivityBot - INFO - Checking activity for DR (groups: sysop)
+2025-04-20 21:08:57,741 - ActivityBot - INFO - Checking activity for DodoBot (groups: sysop, bureaucrat)
+2025-04-20 21:08:57,741 - ActivityBot - INFO - Checking activity for DodoMan (groups: sysop, bureaucrat)
+2025-04-20 21:08:57,814 - ActivityBot - INFO - Checking activity for Drummingman (groups: sysop, bureaucrat)
+2025-04-20 21:08:57,814 - ActivityBot - INFO - Checking activity for EPIC (groups: sysop, bureaucrat)
+2025-04-20 21:08:57,814 - ActivityBot - INFO - Checking activity for FuzzyBot (groups: sysop)
+2025-04-20 21:08:57,814 - ActivityBot - INFO - Checking activity for Inactivity Bot (groups: sysop, bureaucrat)
+2025-04-20 21:08:57,814 - ActivityBot - INFO - Checking activity for It's moon (groups: sysop)
+2025-04-20 21:08:57,886 - ActivityBot - INFO - Checking activity for Justarandomamerican (groups: sysop, bureaucrat, interface-admin)
+2025-04-20 21:08:57,886 - ActivityBot - INFO - Checking activity for Justarandomamerican (BOT) (groups: sysop, bureaucrat)
+2025-04-20 21:08:57,952 - ActivityBot - INFO - Checking activity for Justman10000 (groups: sysop, bureaucrat)
+2025-04-20 21:08:58,017 - ActivityBot - INFO - Checking activity for Leo (groups: sysop, bureaucrat)
+2025-04-20 21:08:58,083 - ActivityBot - INFO - Checking activity for LisafBia (groups: sysop, bureaucrat)
+2025-04-20 21:08:58,146 - ActivityBot - INFO - Checking activity for MacFan4000 (groups: sysop, bureaucrat, interface-admin)
+2025-04-20 21:08:58,146 - ActivityBot - INFO - Checking activity for MacFanBot (groups: sysop, bureaucrat)
+2025-04-20 21:08:58,147 - ActivityBot - INFO - Checking activity for PandaFiredoge (groups: sysop)
+2025-04-20 21:08:58,212 - ActivityBot - INFO - Checking activity for Sidrat al-Muntaha (groups: sysop, bureaucrat)
+2025-04-20 21:08:58,278 - ActivityBot - INFO - Checking activity for Sneezless (groups: sysop, bureaucrat)
+2025-04-20 21:08:58,343 - ActivityBot - INFO - Checking activity for Tailsultimatefan3891 (groups: sysop)
+2025-04-20 21:08:58,407 - ActivityBot - INFO - Checking activity for TenWhile6 (groups: sysop, bureaucrat)
+2025-04-20 21:08:58,471 - ActivityBot - INFO - Checking activity for Tester (groups: sysop, bureaucrat)
+2025-04-20 21:08:58,534 - ActivityBot - INFO - Checking activity for TheAstorPastor (groups: sysop, bureaucrat, interface-admin)
+2025-04-20 21:08:58,637 - ActivityBot - INFO - Could not find when TheAstorPastor was granted interface-admin.
+2025-04-20 21:08:58,711 - ActivityBot - INFO - Checking activity for Thejoppyloppy (groups: sysop)
+2025-04-20 21:08:58,778 - ActivityBot - INFO - Checking activity for VancityRothaug (groups: sysop, bureaucrat)
+2025-04-20 21:08:58,845 - ActivityBot - INFO - Checking activity for X (groups: sysop, bureaucrat)
+2025-04-20 21:08:58,944 - ActivityBot - INFO - Activity report page doesn't exist yet, creating it
+2025-04-20 21:08:59,639 - ActivityBot - INFO - Successfully updated activity report
+2025-04-20 21:08:59,639 - ActivityBot - INFO - ActivityBot run completed - warned: 0, removed: 0
+2025-04-20 21:08:59,639 - ActivityBot - INFO - Bot run completed successfully
