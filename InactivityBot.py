@@ -492,51 +492,90 @@ class ActivityBot:
             logger.error(f"Error getting abuse filter activity for {username}: {e}")
             return "Error", 999
 
-    def check_rights_grant_date(self, username: str, right: str) -> Tuple[bool, int]:
+    def check_rights_grant_date(self, username, right):
         """
-        Check when a user was granted a specific right
-        Returns (is_new_right, days_since_grant)
+        Check when a user was granted specific rights.
+        Returns (is_new_right, days_since_grant) tuple.
+
+        Args:
+            username (str): Username to check
+            right (str): Right to check for
+
+        Returns:
+            tuple: (is_new_right, days_since_grant) where is_new_right is bool and
+                   days_since_grant is int or None if not found
         """
+        self._ensure_token_fresh('userrights')
         params = {
             "action": "query",
             "list": "logevents",
             "letype": "rights",
             "letitle": f"User:{username}",
-            "lelimit": 50,  # Get enough to find the most recent grant
-            "leprop": "timestamp|details|params",
-            "format": "json"
+            "leprop": "timestamp|details",
+            "format": "json",
+            "token": self.tokens['userrights']
         }
-        
+
         try:
-            response = self.session.get(url=self.API_URL, params=params)
+            response = self.session.get(url=self.API_URL, params=params, timeout=30)
             response.raise_for_status()
             data = response.json()
-            rights_logs = data.get("query", {}).get("logevents", [])
-            
-            for log in rights_logs:
-                # Check if this log entry granted the right we're looking for
-                if "params" in log and "add" in log["params"] and right in log["params"]["add"]:
-                    # Found a log entry where this right was granted
-                    grant_date = self._parse_timestamp(log["timestamp"])
-                    now = datetime.datetime.now(pytz.UTC)
-                    days_since_grant = (now - grant_date).days
-                    
-                    # Check if this is within the grace period
-                    is_new_right = days_since_grant <= self.NEW_RIGHTS_GRACE_PERIOD
-                    
-                    logger.info(f"User {username} was granted {right} {days_since_grant} days ago.")
-                    return is_new_right, days_since_grant
-            
-            # If we got here, we didn't find a log entry granting this right
-            logger.info(f"Could not find when {username} was granted {right}.")
-            return False, 999
-            
+
+            if 'error' in data:
+                logger.error(f"API error while checking rights for {username}: {data['error']}")
+                return False, None
+
+            log_entries = data.get('query', {}).get('logevents', [])
+            if not log_entries:
+                logger.info(f"No rights log entries found for {username}")
+                return False, None
+
+            for entry in log_entries:
+                params = entry.get('params', {})
+                new_groups = params.get('newgroups', [])
+                old_groups = params.get('oldgroups', [])
+
+                if right in new_groups and right not in old_groups:
+                    timestamp = entry.get('timestamp')
+                    if not timestamp:
+                        continue
+
+                    try:
+                        # Make sure we're working with a datetime object
+                        if isinstance(timestamp, str):
+                            grant_date = self._parse_timestamp(timestamp)
+                        else:
+                            grant_date = timestamp
+
+                        if not isinstance(self.today, datetime.datetime):
+                            # Ensure self.today is also a datetime object
+                            self.today = datetime.datetime.now(datetime.timezone.utc)
+
+                        days_since_grant = (self.today - grant_date).days
+                        logger.info(
+                            f"{username} was granted {right} on {grant_date.strftime('%Y-%m-%d')} "
+                            f"({days_since_grant} days ago)"
+                        )
+                        return days_since_grant <= self.NEW_RIGHTS_GRACE_PERIOD, days_since_grant
+                    except (ValueError, TypeError) as e:
+                        ogger.error(f"Error parsing timestamp for {username}: {str(e)}")
+                        continue
+
+            logger.info(
+                f"Could not find {right} grant in {len(log_entries)} log entries for {username}. "
+                f"Latest entry: {log_entries[0].get('timestamp', 'N/A') if log_entries else 'N/A'}"
+            )
+            return False, None
+
+        except requests.Timeout:
+            logger.error(f"Timeout while checking rights for {username}")
+            return False, None
         except requests.RequestException as e:
-            logger.error(f"Request error checking rights grant date for {username} ({right}): {e}")
-            return False, 999
+            logger.error(f"Network error checking rights for {username}: {str(e)}")
+            return False, None
         except Exception as e:
-            logger.error(f"Error checking rights grant date for {username} ({right}): {e}")
-            return False, 999
+            logger.error(f"Unexpected error checking rights for {username}: {str(e)}")
+            return False, None
     
     def check_recent_activity(self, username: str) -> bool:
         """
@@ -825,35 +864,35 @@ class ActivityBot:
                 self.actions_taken["removed"].append(username)
             else:
                 logger.error(f"Failed to remove rights from {username}")
-    
+
     def cleanup_reported_users(self) -> None:
         """Clean up old entries in the reported_users dictionary to avoid indefinite growth"""
-        current_date = datetime.datetime.strptime(self.today, "%Y-%m-%d")
-        current_date = pytz.UTC.localize(current_date)
-        
+        # Remove the strptime conversion since self.today is already a datetime object
+        current_date = pytz.UTC.localize(self.today) if self.today.tzinfo is None else self.today
+
         users_to_remove = []
-        
+
         for username, data in self.reported_users.items():
             try:
                 report_date = datetime.datetime.strptime(data["date"], "%Y-%m-%d")
                 report_date = pytz.UTC.localize(report_date)
-                
+
                 days_since_report = (current_date - report_date).days
-                
+
                 if days_since_report > self.REPORT_RETENTION:
                     users_to_remove.append(username)
-                    
+
             except (ValueError, KeyError) as e:
                 logger.warning(f"Error processing reported user data for {username}: {e}")
                 # Keep invalid entries to avoid data loss, they can be manually reviewed
-        
+
         for username in users_to_remove:
             del self.reported_users[username]
-            
+
         if users_to_remove:
             logger.info(f"Cleaned up {len(users_to_remove)} old entries from reported users")
             self._save_json("reported_users.json", self.reported_users)
-    
+
     def update_activity_report(self) -> bool:
         """Update the activity report page with the latest user activity information"""
         # Ensure token is fresh before updating the report
