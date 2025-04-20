@@ -49,7 +49,7 @@ class ActivityBot:
     INTERFACE_ADMIN_THRESHOLD = 30  # days
     ABUSEFILTER_ADMIN_THRESHOLD = 90  # days
     NEW_RIGHTS_GRACE_PERIOD = 7  # days
-    ABUSEFILTER_WARNING_THRESHOLD = 75  # Days before warning abuse filter admins
+    ABUSEFILTER_ADMIN_WARNING_THRESHOLD = 75  # Days before warning abuse filter admins
     
     # User groups to monitor
     MONITORED_GROUPS = ["sysop", "bureaucrat", "interface-admin", "abusefilter-admin"]
@@ -101,11 +101,11 @@ class ActivityBot:
         "Thank you for your understanding! ~~~~"
     )
 
-    ABUSEFILTER_WARNING_MESSAGE = (
+    ABUSEFILTER_ADMIN_WARNING_MESSAGE = (
         "Hello {{BASEPAGENAME}}! This is an automated message to inform you that"
         "you have not made any edits to abuse filters in the past"
         "{days_inactive} days. According to the [[TW:IP|inactivity policy]],"
-        "if you do not make any edits to abuse filters within the next 15 days,"
+        "if you do not make any edits to abuse filters within the next {days_until_removal} days,"
         "your abusefilter-admin right will be removed."
         "Thank you for your understanding! ~~~~"
     )
@@ -691,16 +691,16 @@ class ActivityBot:
                     }
         
         # Check Abuse Filter Admin activity if applicable
-        if "abusefilter" in user_groups:
+        if "abusefilter-admin" in user_groups:
             af_days = self.get_user_abusefilter_activity(username)
 
             # Warning check
-            if af_days >= self.ABUSEFILTER_WARNING_THRESHOLD and af_days < self.ABUSEFILTER_ADMIN_THRESHOLD:
+            if af_days >= self.ABUSEFILTER_ADMIN_WARNING_THRESHOLD and af_days < self.ABUSEFILTER_ADMIN_THRESHOLD:
                 if self._should_warn_user(username):
                     days_until_removal = self.ABUSEFILTER_ADMIN_THRESHOLD - af_days
                     self.send_user_message(
                         username,
-                        self.ABUSEFILTER_WARNING_MESSAGE.format(
+                        self.ABUSEFILTER_ADMIN_WARNING_MESSAGE.format(
                             days_inactive=af_days,
                             days_until_removal=days_until_removal
                         )
