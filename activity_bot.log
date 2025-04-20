@@ -91,3 +91,43 @@ ValueError: Bot credentials are missing.
 2025-04-20 20:42:12,690 - ActivityBot - INFO - Successfully updated activity report
 2025-04-20 20:42:12,690 - ActivityBot - INFO - ActivityBot run completed - warned: 0, removed: 0
 2025-04-20 20:42:12,690 - ActivityBot - INFO - Bot run completed successfully
+2025-04-20 21:04:33,235 - ActivityBot - INFO - Current working directory: /home/runner/work/TestWiki-Bot/TestWiki-Bot
+2025-04-20 21:04:33,236 - ActivityBot - INFO - Environment loaded: False
+2025-04-20 21:04:33,236 - ActivityBot - INFO - Environment variables loaded successfully.
+2025-04-20 21:04:33,236 - ActivityBot - INFO - Bot credentials loaded successfully.
+2025-04-20 21:04:33,236 - ActivityBot - INFO - Starting ActivityBot run
+2025-04-20 21:04:33,417 - ActivityBot - INFO - Obtained login token: 3cf46...1+\
+2025-04-20 21:04:33,523 - ActivityBot - INFO - Successfully logged in as Inactivity Bot
+2025-04-20 21:04:33,567 - ActivityBot - INFO - Refreshed CSRF token: e524c...1+\
+2025-04-20 21:04:33,609 - ActivityBot - INFO - Refreshed userrights token: 8ab2a...1+\
+2025-04-20 21:04:33,652 - ActivityBot - INFO - Found users in group 'sysop': 40
+2025-04-20 21:04:33,697 - ActivityBot - INFO - Found users in group 'bureaucrat': 28
+2025-04-20 21:04:33,739 - ActivityBot - INFO - Found users in group 'interface-admin': 4
+2025-04-20 21:04:33,781 - ActivityBot - INFO - Found users in group 'abusefilter-admin': 1
+2025-04-20 21:04:33,781 - ActivityBot - INFO - Checking activity for 3PPYB6 (groups: sysop)
+2025-04-20 21:04:33,875 - ActivityBot - INFO - Checking activity for Abuse filter (groups: sysop)
+2025-04-20 21:04:33,876 - ActivityBot - INFO - Checking activity for AlPaD (groups: sysop, bureaucrat)
+2025-04-20 21:04:33,965 - ActivityBot - INFO - Checking activity for Alachuckthebuck (groups: sysop, bureaucrat)
+2025-04-20 21:04:34,051 - ActivityBot - INFO - Checking activity for BZPN (groups: sysop, bureaucrat, interface-admin)
+2025-04-20 21:04:34,183 - ActivityBot - INFO - Could not find when BZPN was granted interface-admin.
+2025-04-20 21:04:34,277 - ActivityBot - INFO - Checking activity for BasiclyHugh (groups: sysop)
+2025-04-20 21:04:34,365 - ActivityBot - INFO - Checking activity for Bhairava7 (groups: sysop, bureaucrat)
+2025-04-20 21:04:34,452 - ActivityBot - INFO - Checking activity for Bosco (groups: sysop, bureaucrat)
+2025-04-20 21:04:34,540 - ActivityBot - INFO - Checking activity for Bosco-bot (groups: sysop)
+2025-04-20 21:04:34,632 - ActivityBot - INFO - Checking activity for Brewster239 (groups: sysop, bureaucrat)
+2025-04-20 21:04:34,719 - ActivityBot - INFO - Checking activity for Bunnypranav (groups: sysop, bureaucrat)
+2025-04-20 21:04:34,805 - ActivityBot - INFO - Checking activity for BusMuster (groups: sysop)
+2025-04-20 21:04:34,805 - ActivityBot - INFO - Checking activity for C1K98V (groups: sysop, bureaucrat)
+2025-04-20 21:04:34,894 - ActivityBot - INFO - Checking activity for Chaotic Enby (groups: sysop)
+2025-04-20 21:04:34,981 - ActivityBot - INFO - Checking activity for Codename Noreste (groups: sysop, bureaucrat, abusefilter-admin)
+2025-04-20 21:04:35,117 - ActivityBot - CRITICAL - Unhandled exception in bot run: '>=' not supported between instances of 'tuple' and 'int'
+Traceback (most recent call last):
+  File "/home/runner/work/TestWiki-Bot/TestWiki-Bot/InactivityBot.py", line 1015, in main
+    success = bot.run()
+  File "/home/runner/work/TestWiki-Bot/TestWiki-Bot/InactivityBot.py", line 998, in run
+    self.check_user_activity(username, user_groups)
+    ~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/work/TestWiki-Bot/TestWiki-Bot/InactivityBot.py", line 698, in check_user_activity
+    if af_days >= self.ABUSEFILTER_ADMIN_WARNING_THRESHOLD and af_days < self.ABUSEFILTER_ADMIN_THRESHOLD:
+       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: '>=' not supported between instances of 'tuple' and 'int'
