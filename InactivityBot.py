@@ -49,6 +49,7 @@ class ActivityBot:
     INTERFACE_ADMIN_THRESHOLD = 30  # days
     ABUSEFILTER_ADMIN_THRESHOLD = 90  # days
     NEW_RIGHTS_GRACE_PERIOD = 7  # days
+    ABUSEFILTER_WARNING_THRESHOLD = 75  # Days before warning abuse filter admins
     
     # User groups to monitor
     MONITORED_GROUPS = ["sysop", "bureaucrat", "interface-admin", "abusefilter-admin"]
@@ -99,7 +100,15 @@ class ActivityBot:
         "If you wish to regain this right, please request it at [[Test_Wiki:Request_for_permissions|Request for permissions]] "
         "Thank you for your understanding! ~~~~"
     )
-    
+
+    ABUSEFILTER_WARNING_MESSAGE = (
+        "Hello {{BASEPAGENAME}}! This is an automated message to inform you that"
+        "you have not made any edits to abuse filters in the past"
+        "{days_inactive} days. According to the [[TW:IP|inactivity policy]],"
+        "if you do not make any edits to abuse filters within the next 15 days,"
+        "your abusefilter-admin right will be removed."
+        "Thank you for your understanding! ~~~~"
+    )
     def __init__(self):
         if not self.BOT_USERNAME or not self.BOT_PASSWORD:
             logger.error("Bot credentials (username/password) are missing. Please check your environment variables.")
@@ -682,25 +691,28 @@ class ActivityBot:
                     }
         
         # Check Abuse Filter Admin activity if applicable
-        if "abusefilter-admin" in user_groups:
-            # Check if this is a new right (within grace period)
-            is_new_right, days_since_grant = self.check_rights_grant_date(username, "abusefilter-admin")
-            
-            if is_new_right:
-                logger.info(f"Skipping abusefilter-admin check for {username} - right granted {days_since_grant} days ago (within {self.NEW_RIGHTS_GRACE_PERIOD}-day grace period)")
-            else:
-                # Check specific abuse filter activity
-                filter_last_date, filter_days_inactive = self.get_user_abusefilter_activity(username)
-                
-                if filter_days_inactive >= self.ABUSEFILTER_ADMIN_THRESHOLD:
-                    logger.info(f"{username} has no abuse filter activity for {filter_days_inactive} days")
-                    
-                    # Only remove abusefilter-admin right
-                    rights_to_remove.append("abusefilter-admin")
-                    removal_reasons["abusefilter-admin"] = {
-                        "days_inactive": filter_days_inactive,
-                        "last_activity": filter_last_date
-                    }
+        if "abusefilter" in user_groups:
+            af_days = self.get_user_abusefilter_activity(username)
+
+            # Warning check
+            if af_days >= self.ABUSEFILTER_WARNING_THRESHOLD and af_days < self.ABUSEFILTER_ADMIN_THRESHOLD:
+                if self._should_warn_user(username):
+                    days_until_removal = self.ABUSEFILTER_ADMIN_THRESHOLD - af_days
+                    self.send_user_message(
+                        username,
+                        self.ABUSEFILTER_WARNING_MESSAGE.format(
+                            days_inactive=af_days,
+                            days_until_removal=days_until_removal
+                        )
+                    )
+                    self.warned_users[username] = self.today
+            # Removal check
+            if af_days >= self.ABUSEFILTER_ADMIN_THRESHOLD:
+                if self.remove_user_rights(username, ["abusefilter"]):
+                    self.send_user_message(
+                        username,
+                        self.ABUSEFILTER_ADMIN_REMOVAL_MESSAGE.format(days_inactive=af_days)
+                    )
         
         # Check general inactivity for all users
         if days_inactive >= self.WARNING_THRESHOLD:
