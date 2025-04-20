@@ -864,7 +864,7 @@ class ActivityBot:
         # Get page content to check size before updating
         params = {
             "action": "query",
-            "titles": "Activity",
+            "titles": "Activity/Reports",
             "prop": "revisions",
             "rvprop": "content|size",
             "rvslots": "main",
