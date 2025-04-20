@@ -603,7 +603,8 @@ class ActivityBot:
             "summary": "Automated inactivity notification",
             "text": message,
             "token": self.tokens["csrf"],
-            "format": "json"
+            "format": "json",
+            "bot": "1"
         }
         
         try:
@@ -947,7 +948,8 @@ class ActivityBot:
                     "text": current_content,
                     "summary": "Archiving activity report due to size",
                     "token": self.tokens["csrf"],
-                    "format": "json"
+                    "format": "json",
+                    "bot": "1"
                 }
                 
                 archive_response = self.session.post(url=self.API_URL, data=params)
@@ -995,7 +997,8 @@ class ActivityBot:
                 "text": current_content + report_content,
                 "summary": f"Updating activity report for {self.today}",
                 "token": self.tokens["csrf"],
-                "format": "json"
+                "format": "json",
+                "bot": "1"
             }
             
             response = self.session.post(url=self.API_URL, data=params)
