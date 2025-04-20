@@ -18,7 +18,13 @@ logging.basicConfig(
     ]
 )
 logger = logging.getLogger('ActivityBot')
-load_dotenv()
+print(f"Current working directory: {os.getcwd()}")
+# Load environment variables and check if it succeeded
+loaded = load_dotenv()
+print(f"Environment loaded: {loaded}")
+
+# Get all environment variables (temporarily, for debugging)
+print("Available environment variables:", [k for k in os.environ.keys() if k in ['BOT_USERNAME', 'BOT_PASSWORD']])
 
 class ActivityBot:
 
