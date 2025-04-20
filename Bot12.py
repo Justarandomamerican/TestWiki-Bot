@@ -121,6 +121,9 @@ class ActivityBot:
     
     def login(self) -> bool:
         # Log in to the MediaWiki API.
+        # Add this before the login attempt (temporarily for debugging)
+        print(f"Username being used: {self.BOT_USERNAME}")
+        print(f"Password length: {len(self.BOT_PASSWORD) if self.BOT_PASSWORD else 0}")
         # Get login token
         params = {
             "action": "query",
