@@ -692,7 +692,8 @@ class ActivityBot:
         
         # Check Abuse Filter Admin activity if applicable
         if "abusefilter-admin" in user_groups:
-            af_days = self.get_user_abusefilter_activity(username)
+            af_timestamp, af_days = self.get_user_abusefilter_activity(username)
+
 
             # Warning check
             if af_days >= self.ABUSEFILTER_ADMIN_WARNING_THRESHOLD and af_days < self.ABUSEFILTER_ADMIN_THRESHOLD:
