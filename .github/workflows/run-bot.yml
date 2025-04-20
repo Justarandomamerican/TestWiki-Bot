@@ -2,7 +2,7 @@ name: Run Inactivity Bot
 
 on:
   schedule:
-    - cron: "0 3 * * *"  # Runs daily at 3 AM UTC
+    - cron: "0 0 * * *"  # Runs daily at 12 AM UTC
   workflow_dispatch:     # Allows manual trigger from GitHub UI
 
 jobs:
@@ -42,5 +42,4 @@ jobs:
           git commit -m "Update JSON files after bot run"
           git push
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  
-
+          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
