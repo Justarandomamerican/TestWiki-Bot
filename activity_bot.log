@@ -9,3 +9,14 @@ Traceback (most recent call last):
   File "/home/runner/work/TestWiki-Bot/TestWiki-Bot/InactivityBot.py", line 106, in __init__
     raise ValueError("Bot credentials are missing.")
 ValueError: Bot credentials are missing.
+2025-04-20 20:31:55,609 - ActivityBot - INFO - Current working directory: /home/runner/work/TestWiki-Bot/TestWiki-Bot
+2025-04-20 20:31:55,610 - ActivityBot - INFO - Environment loaded: False
+2025-04-20 20:31:55,610 - ActivityBot - WARNING - BOT_USERNAME or BOT_PASSWORD not found in environment variables.
+2025-04-20 20:31:55,610 - ActivityBot - ERROR - Bot credentials (username/password) are missing. Please check your environment variables.
+2025-04-20 20:31:55,610 - ActivityBot - CRITICAL - Unhandled exception in bot run: Bot credentials are missing.
+Traceback (most recent call last):
+  File "/home/runner/work/TestWiki-Bot/TestWiki-Bot/InactivityBot.py", line 1002, in main
+    bot = ActivityBot()
+  File "/home/runner/work/TestWiki-Bot/TestWiki-Bot/InactivityBot.py", line 106, in __init__
+    raise ValueError("Bot credentials are missing.")
+ValueError: Bot credentials are missing.
