@@ -24,8 +24,8 @@ class ActivityBot:
 
     # Configuration
     API_URL = "https://testwiki.wiki/api.php"
-    BOT_USERNAME = os.environ.get("username")
-    BOT_PASSWORD = os.environ.get("password")
+    BOT_USERNAME = os.environ.get("BOT_USERNAME")
+    BOT_PASSWORD = os.environ.get("BOT_PASSWORD")
 
     # Inactivity thresholds
     WARNING_THRESHOLD = 75  # days
